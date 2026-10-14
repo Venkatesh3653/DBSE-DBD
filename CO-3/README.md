@@ -1,220 +1,127 @@
-Library Management System — ReactJS + Spring Boot + MySQL Workbench + Postman
-Technology stack
-Frontend:
+# Library Management System
 
-ReactJS
-Vite
-JavaScript
-Backend:
+## 1. Project Overview
 
-Spring Boot 3
-Spring Security
-JWT
-BCrypt
-Spring Data JPA
-Bean Validation
-@Async background logging
-Database:
+The **Library Management System** is a software application designed to simplify and automate library operations. It helps librarians manage books, maintain student or member records, track book borrowing and returns, and monitor book availability.
 
-MySQL 8
-MySQL Workbench
-API testing:
+The system reduces manual paperwork, improves accuracy, and makes library management faster and more efficient.
 
-Postman
-Architecture
-ReactJS | | REST / JSON / JWT v Spring Boot REST API | +-- Validation +-- JWT Security +-- BCrypt +-- JPA / Hibernate +-- @Async Audit Task +-- Semantic Search Service | v MySQL 8 ^ | MySQL Workbench
+## 2. Objectives
 
-1. MySQL Workbench setup
-Open MySQL Workbench and connect to your local MySQL Server.
+- To maintain book records digitally.
+- To add, update, search, and delete book details.
+- To manage library members or student records.
+- To issue books and record returned books.
+- To track available and borrowed books.
+- To reduce manual work and improve efficiency.
 
-Run:
+## 3. Features
 
-CREATE DATABASE IF NOT EXISTS library_db;
-USE library_db;
-The same SQL is available in:
+- **Book Management:** Add, view, update, and delete book records.
+- **Member Management:** Maintain student or library member information.
+- **Book Search:** Search books by title, author, or book ID.
+- **Issue Books:** Record book borrowing transactions.
+- **Return Books:** Update book availability after returns.
+- **Availability Tracking:** Display available and issued books.
+- **User Interface:** Simple and user-friendly interface for managing library operations.
 
-database/library_database.sql
+## 4. Technologies Used
 
-Spring Boot creates the members and books tables with Hibernate.
+Update this section according to the technologies used in your project.
 
-Default configuration:
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Java / Python / Node.js
+- **Database:** MySQL / MongoDB
+- **Development Environment:** Visual Studio Code
 
-Host: localhost
-Port: 3306
-Database: library_db
-Username: root
-Password: root
-Change these in application.properties or environment variables if your MySQL password differs.
+## 5. Project Structure
 
-2. Start Spring Boot
-Requirements:
+```text
+Library-Management-System/
+│
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
+├── backend/
+│   └── server.js
+│
+├── database/
+│   └── database.sql
+│
+├── README.md
+└── package.json
+```
 
-Java 17+
-Maven
-MySQL 8+
-cd backend
-mvn spring-boot:run
-API:
+*Note: The folder structure may differ depending on your implementation.*
 
-http://localhost:8080
-3. Start ReactJS
-cd frontend
+## 6. Installation and Setup
+
+### Step 1: Download the Project
+
+Download or clone the project repository and open the project folder in Visual Studio Code.
+
+### Step 2: Install Dependencies
+
+If the project uses Node.js, open the terminal and run:
+
+```bash
 npm install
-npm run dev
-Open:
+```
 
-http://localhost:5173
-4. Test completely using Postman
-Import:
+### Step 3: Configure the Database
 
-postman/Library_API.postman_collection.json
+Set up the required database and update the database connection details in the backend configuration.
 
-Run requests in this order:
+### Step 4: Start the Application
 
-A. Health
-GET http://localhost:8080/api/health
-Expected:
+For a Node.js application, run:
 
-{
-  "status": "ok"
-}
-B. Register
-POST http://localhost:8080/api/auth/register
-Body:
+```bash
+npm start
+```
 
-{
-  "username": "member01",
-  "email": "member01@example.com",
-  "password": "StrongPass123"
-}
-C. Login
-POST http://localhost:8080/api/auth/login
-Body:
+If the project uses a different backend, follow the appropriate execution commands.
 
-{
-  "username": "member01",
-  "password": "StrongPass123"
-}
-The Postman collection automatically saves accessToken as the token collection variable.
+### Step 5: Open the Application
 
-D. Add Book
-POST http://localhost:8080/api/books
-Authorization: Bearer {{token}}
-Body:
+Open the frontend in your browser or visit the local URL displayed in the terminal by the backend server.
 
-{
-  "title": "ReactJS and Spring Boot Development",
-  "isbn": "9781234567890",
-  "price": 799.00,
-  "publishedDate": "2026-01-15",
-  "description": "A practical guide to building secure web applications using ReactJS and Spring Boot."
-}
-E. Semantic Search
-GET http://localhost:8080/api/books/search?q=secure%20web%20development&limit=10
-Authorization: Bearer {{token}}
-5. Validation tests in Postman
-Try invalid ISBN:
+## 7. How to Use
 
-{
-  "title": "Test Book",
-  "isbn": "12345",
-  "price": 100,
-  "publishedDate": "2026-01-01"
-}
-Expected: HTTP 400 validation error.
+1. Start the application.
+2. Open the library management dashboard.
+3. Add book details to the system.
+4. Register library members.
+5. Search for books when required.
+6. Issue available books to members.
+7. Record returned books.
+8. Check book availability and transaction records.
 
-Try invalid price:
+## 8. Advantages
 
-{
-  "title": "Test Book",
-  "isbn": "9781234567890",
-  "price": 0,
-  "publishedDate": "2026-01-01"
-}
-Expected: HTTP 400.
+- Reduces paperwork and manual errors.
+- Saves time when searching for books.
+- Improves book inventory management.
+- Makes borrowing and returning easier to track.
+- Maintains organized library records.
 
-Try future date:
+## 9. Future Enhancements
 
-{
-  "title": "Test Book",
-  "isbn": "9781234567890",
-  "price": 100,
-  "publishedDate": "2099-01-01"
-}
-Expected: HTTP 400.
+- Login and role-based access for administrators and librarians.
+- Automatic fine calculation for overdue books.
+- Book reservation functionality.
+- Email or SMS notifications for due dates.
+- Report generation and analytics.
+- Barcode or QR-code-based book tracking.
 
-6. Semantic search and MySQL
-This MySQL version intentionally does NOT use PostgreSQL's pgvector or the PostgreSQL <=> operator.
+## 10. Conclusion
 
-Instead:
+The Library Management System provides an efficient way to manage books, members, and borrowing transactions. By digitizing routine library activities, it improves record accuracy, saves time, and supports better library administration.
 
-Book text is converted into an embedding.
-The embedding is stored in MySQL as JSON text.
-The query is converted into an embedding.
-Spring Boot calculates cosine similarity.
-Books are sorted by similarity.
-This makes the project directly compatible with MySQL Workbench.
+## 11. Author
 
-If your institution specifically requires native database-side vector search, use a MySQL version/service that supports the required vector features and change the schema/query accordingly.
-
-7. Background task
-After a successful book insertion, Spring Boot calls:
-
-@Async
-public void logNewBook(...)
-The event is written to:
-
-backend/logs/book_events.txt
-8. Security flow
-ReactJS / Postman
-       |
-       | username + password
-       v
-Spring Boot
-       |
-       | BCrypt verification
-       v
-     MySQL
-       |
-       v
-     JWT
-       |
-       v
-Authorization: Bearer <token>
-       |
-       v
-Member-only Book APIs
-9. VS Code workflow
-Open the entire library_react_springboot_mysql folder in VS Code.
-
-Use two terminals:
-
-Terminal 1:
-
-cd backend
-mvn spring-boot:run
-Terminal 2:
-
-cd frontend
-npm install
-npm run dev
-Use MySQL Workbench to inspect:
-
-library_db
-  ├── members
-  └── books
-Use Postman to test every API endpoint.
-
-Production recommendations
-For a production textbook implementation, add:
-
-Flyway/Liquibase migrations
-refresh-token rotation
-role-based access control
-HTTPS
-rate limiting
-secure HttpOnly cookies where appropriate
-centralized structured logging
-database indexes
-a production embedding/vector-search service
-automated integration tests
+**Project:** Library Management System  
+**Purpose:** Academic / Educational Project  
+**Development Tool:** Visual Studio Code
